@@ -1,0 +1,1 @@
+See attached javadoc and .jpg files included in the readme folder for important information.
