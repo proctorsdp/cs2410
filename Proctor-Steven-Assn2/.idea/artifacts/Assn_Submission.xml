@@ -1,0 +1,18 @@
+<component name="ArtifactManager">
+  <artifact build-on-make="true" name="Assn Submission">
+    <output-path>$PROJECT_DIR$/out/artifacts/Assn_Submission</output-path>
+    <root id="root">
+      <element id="archive" name="Proctor-Steven-Assn2.zip">
+        <element id="directory" name="src">
+          <element id="dir-copy" path="$PROJECT_DIR$/src" />
+        </element>
+        <element id="directory" name="readme">
+          <element id="dir-copy" path="$PROJECT_DIR$/readme" />
+        </element>
+        <element id="directory" name="cmd-out">
+          <element id="dir-copy" path="$PROJECT_DIR$/cmd-out" />
+        </element>
+      </element>
+    </root>
+  </artifact>
+</component>
