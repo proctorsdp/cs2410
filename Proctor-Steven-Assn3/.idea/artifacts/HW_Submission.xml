@@ -1,0 +1,18 @@
+<component name="ArtifactManager">
+  <artifact build-on-make="true" name="HW_Submission">
+    <output-path>$PROJECT_DIR$/out/artifacts/HW_Submission</output-path>
+    <root id="root">
+      <element id="archive" name="Proctor-Steven-Assn3.zip">
+        <element id="directory" name="data">
+          <element id="dir-copy" path="$PROJECT_DIR$/data" />
+        </element>
+        <element id="directory" name="src">
+          <element id="dir-copy" path="$PROJECT_DIR$/src" />
+        </element>
+        <element id="directory" name="readme">
+          <element id="dir-copy" path="$PROJECT_DIR$/readme" />
+        </element>
+      </element>
+    </root>
+  </artifact>
+</component>
