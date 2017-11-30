@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.CheckMenuItem?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+
+<MenuBar xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.MineFinderMenu">
+   <menus>
+      <Menu mnemonicParsing="false" text="Difficulty">
+         <items>
+            <CheckMenuItem mnemonicParsing="false" text="Easy" />
+            <CheckMenuItem mnemonicParsing="false" text="Medium" />
+            <CheckMenuItem mnemonicParsing="false" text="Hard" />
+         </items>
+      </Menu>
+      <Menu mnemonicParsing="false" text="Size">
+         <items>
+            <MenuItem mnemonicParsing="false" text="Small 10x10" />
+            <MenuItem mnemonicParsing="false" text="Medium 25x25" />
+            <MenuItem mnemonicParsing="false" text="Large 50x50" />
+         </items>
+      </Menu>
+      <Menu mnemonicParsing="false" text="Mode">
+         <items>
+            <MenuItem mnemonicParsing="false" text="Traditional" />
+            <MenuItem mnemonicParsing="false" text="Speed Demon" />
+            <MenuItem mnemonicParsing="false" text="Count Down" />
+         </items>
+      </Menu>
+      <Menu mnemonicParsing="false" text="Sound">
+         <items>
+            <MenuItem mnemonicParsing="false" text="Un-Mute" />
+         </items>
+      </Menu>
+      <Menu mnemonicParsing="false" text="High Scores">
+         <items>
+            <MenuItem mnemonicParsing="false" text="Display" />
+            <MenuItem mnemonicParsing="false" text="Erase" />
+         </items>
+      </Menu>
+   </menus>
+</MenuBar>
