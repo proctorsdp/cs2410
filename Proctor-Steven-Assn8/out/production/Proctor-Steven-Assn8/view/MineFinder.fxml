@@ -1,134 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Menu?>
-<?import javafx.scene.control.MenuBar?>
-<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.TilePane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
 
-
-<VBox xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MineFinderController">
+<VBox fx:id="mineFinder" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MineFinderController">
    <children>
-      <MenuBar>
-         <menus>
-            <Menu mnemonicParsing="false" text="Difficulty">
-               <items>
-                  <MenuItem mnemonicParsing="false" text="Easy" />
-                  <MenuItem mnemonicParsing="false" text="Medium" />
-                  <MenuItem mnemonicParsing="false" text="Hard" />
-               </items>
-            </Menu>
-            <Menu mnemonicParsing="false" text="Size">
-               <items>
-                  <MenuItem mnemonicParsing="false" text="Small 10x10" />
-                  <MenuItem mnemonicParsing="false" text="Medium 25x25" />
-                  <MenuItem mnemonicParsing="false" text="Large 50x50" />
-               </items>
-            </Menu>
-            <Menu mnemonicParsing="false" text="Mode">
-               <items>
-                  <MenuItem mnemonicParsing="false" text="Traditional" />
-                  <MenuItem mnemonicParsing="false" text="Speed Demon" />
-                  <MenuItem mnemonicParsing="false" text="Count Down" />
-               </items>
-            </Menu>
-            <Menu mnemonicParsing="false" text="Sound">
-               <items>
-                  <MenuItem mnemonicParsing="false" text="Un-Mute" />
-               </items>
-            </Menu>
-            <Menu mnemonicParsing="false" text="High Scores">
-               <items>
-                  <MenuItem mnemonicParsing="false" text="Display" />
-                  <MenuItem mnemonicParsing="false" text="Erase" />
-               </items>
-            </Menu>
-         </menus>
-      </MenuBar>
+      <fx:include fx:id="menu" source="MineFinderMenu.fxml" />
       <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity">
          <center>
-            <TilePane prefHeight="177.0" prefWidth="339.0" style="-fx-border-color: grey; -fx-border-width: 8;" BorderPane.alignment="CENTER">
+            <TilePane fx:id="mineField_TilePane" prefColumns="10" prefRows="10" style="-fx-border-color: grey; -fx-border-width: 8;" BorderPane.alignment="CENTER">
                <BorderPane.margin>
-                  <Insets top="-8.0" />
+                  <Insets />
                </BorderPane.margin>
             </TilePane>
          </center>
          <top>
-            <VBox alignment="CENTER" spacing="20.0" style="-fx-background-color: lightgrey; -fx-border-color: grey; -fx-border-width: 8;" BorderPane.alignment="CENTER">
-               <padding>
-                  <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
-               </padding>
-               <children>
-                  <HBox alignment="CENTER" spacing="50.0" style="-: ;">
-                     <children>
-                        <HBox alignment="CENTER_LEFT" spacing="10.0">
-                           <children>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Difficulty:">
-                                 <font>
-                                    <Font name="Arial Bold" size="15.0" />
-                                 </font>
-                              </Text>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Medium" />
-                           </children>
-                        </HBox>
-                        <HBox alignment="CENTER_RIGHT" spacing="10.0">
-                           <children>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Mode:">
-                                 <font>
-                                    <Font name="Arial Bold" size="15.0" />
-                                 </font>
-                              </Text>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Traditional" />
-                           </children>
-                        </HBox>
-                     </children>
-                     <VBox.margin>
-                        <Insets />
-                     </VBox.margin>
-                  </HBox>
-                  <HBox alignment="CENTER" spacing="5.0">
-                     <children>
-                        <VBox alignment="CENTER" prefWidth="100.0" spacing="5.0">
-                           <children>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Bombs">
-                                 <font>
-                                    <Font name="Arial Bold" size="15.0" />
-                                 </font>
-                              </Text>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
-                           </children>
-                        </VBox>
-                        <Button mnemonicParsing="false" prefWidth="75.0" text="Reset">
-                           <HBox.margin>
-                              <Insets left="25.0" right="25.0" />
-                           </HBox.margin>
-                           <font>
-                              <Font name="Arial Bold" size="15.0" />
-                           </font>
-                        </Button>
-                        <VBox alignment="CENTER" prefWidth="100.0" spacing="5.0">
-                           <children>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Time">
-                                 <font>
-                                    <Font name="Arial Bold" size="15.0" />
-                                 </font>
-                              </Text>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="00:00" />
-                           </children>
-                        </VBox>
-                     </children>
-                     <VBox.margin>
-                        <Insets />
-                     </VBox.margin>
-                  </HBox>
-               </children>
-            </VBox>
+            <fx:include fx:id="header" source="MineFinderHeader.fxml" />
          </top>
       </BorderPane>
    </children>

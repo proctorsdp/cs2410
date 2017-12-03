@@ -9,11 +9,12 @@ import java.util.Observer;
 public class MineField extends ArrayList<Cell> {
 
     private int size;
-    private int rowSize;
+    private int numRows;
+    private int numCols;
     private int numMines;
 
     private int indexAt(int row, int col) {
-        return (row * rowSize) + col;
+        return (row * numCols) + col;
     }
 
     private void updateBombCount() {
@@ -23,15 +24,15 @@ public class MineField extends ArrayList<Cell> {
     }
 
     private int countNearbyBombs(int index) {
-        int row = index / rowSize;
-        int col = index % rowSize;
+        int row = index / numCols;
+        int col = index % numCols;
         int bombs = 0;
 
         for (int i = row - 1; i <= row + 1; i++) {
-            if (i < 0 || i > rowSize - 1) { continue; }
+            if (i < 0 || i > numRows - 1) { continue; }
 
             for (int j = col - 1; j <= col + 1; j++) {
-                if (j < 0 || j > rowSize - 1) { continue; }
+                if (j < 0 || j > numCols - 1) { continue; }
 
                 if (this.get(indexAt(i, j)).isBomb()) {
                     bombs++;
@@ -42,19 +43,24 @@ public class MineField extends ArrayList<Cell> {
         return bombs;
     }
 
-    public MineField(int rowSize, double percentMines) {
+    public MineField(int numRows, int numCols, double percentMines) {
         if (percentMines > 0.4 || percentMines < 0.1) {
             throw new IllegalArgumentException(
                     "percentMines must be between 0.1 and 0.4; percentMines = " + percentMines
             );
-        } else if (rowSize < 10 || rowSize > 50) {
+        } else if (numRows < 10 || numRows > 25) {
             throw new IllegalArgumentException(
-                    "rowSize must be between 10 and 50; rowSize = " + rowSize
+                    "numRows must be between 10 and 25; numRows = " + numRows
+            );
+        } else if (numCols < 10 || numCols > 50) {
+            throw new IllegalArgumentException(
+                    "numCols must be between 10 and 50; numCols = " + numCols
             );
         }
 
-        this.rowSize = rowSize;
-        this.size = (int) Math.pow(rowSize, 2);
+        this.numRows = numRows;
+        this.numCols = numCols;
+        this.size = numCols * numRows;
         this.numMines = (int) (size * percentMines);
 
         for (int i = 0; i < size; i++) {
@@ -72,15 +78,16 @@ public class MineField extends ArrayList<Cell> {
 
     public void selectNearbyCells(Cell c) {
         int index = this.indexOf(c);
-        int row = index / rowSize;
-        int col = index % rowSize;
+        int row = index / numCols;
+        int col = index % numCols;
 
-        for (int i = row - 1; i < row + 1; i++) {
-            if (i < 0 || i > rowSize - 1) { continue; }
+        for (int i = row - 1; i <= row + 1; i++) {
+            if (i < 0 || i > numRows - 1) { continue; }
 
-            for (int j = col - 1; j < col + 1; j++) {
-                if (j < 0 || j > rowSize - 1) { continue; }
+            for (int j = col - 1; j <= col + 1; j++) {
+                if (j < 0 || j > numCols - 1) { continue; }
 
+                // TODO
                 this.get(indexAt(i, j)).select();
             }
         }
@@ -112,6 +119,10 @@ public class MineField extends ArrayList<Cell> {
         }
     }
 
+    public int getNumMines() {
+        return numMines;
+    }
+
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
@@ -119,7 +130,7 @@ public class MineField extends ArrayList<Cell> {
         for (Cell c : this) {
             stringBuilder.append(c);
 
-            if ((this.indexOf(c) + 1) % rowSize == 0) {
+            if ((this.indexOf(c) + 1) % numCols == 0) {
                 stringBuilder.append("\n");
             } else {
                 stringBuilder.append(" ");

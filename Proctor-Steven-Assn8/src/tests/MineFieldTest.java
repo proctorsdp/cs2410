@@ -12,7 +12,7 @@ class MineFieldTest {
 
     @BeforeEach
     void setUp() {
-        mineField = new MineField(10, .10);
+        mineField = new MineField(10, 10,.10);
     }
 
     @Test

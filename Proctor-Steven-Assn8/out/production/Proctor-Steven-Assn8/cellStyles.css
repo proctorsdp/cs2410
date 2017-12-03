@@ -1,0 +1,53 @@
+.revealed-button{
+    -fx-background-color: lightgrey;
+    -fx-font-family: sans-serif;
+    -fx-font-weight: bold;
+    -fx-font-size: 15;
+}
+
+.zero-button {
+    -fx-text-fill: lightgrey;
+}
+
+.one-button{
+    -fx-text-fill: black;
+}
+
+.two-button{
+    -fx-text-fill: royalblue;
+}
+
+.three-button{
+    -fx-text-fill: midnightblue;
+}
+
+.four-button{
+    -fx-text-fill: seagreen;
+}
+
+.five-button{
+    -fx-text-fill: darkgreen;
+}
+
+.six-button{
+    -fx-text-fill: darkgoldenrod;
+}
+
+.seven-button{
+    -fx-text-fill: orangered;
+}
+
+.eight-button{
+    -fx-text-fill: red;
+}
+
+.flagged-button{
+    -fx-background-color: gold;
+}
+
+.correct-flag{
+    -fx-background-color: green;
+}
+
+
+

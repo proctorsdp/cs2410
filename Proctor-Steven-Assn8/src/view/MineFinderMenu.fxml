@@ -9,34 +9,34 @@
    <menus>
       <Menu mnemonicParsing="false" text="Difficulty">
          <items>
-            <CheckMenuItem mnemonicParsing="false" text="Easy" />
-            <CheckMenuItem mnemonicParsing="false" text="Medium" />
-            <CheckMenuItem mnemonicParsing="false" text="Hard" />
+            <CheckMenuItem fx:id="easyItem_DifficultyMenu" mnemonicParsing="false" onAction="#setDifficulty_OnDifficultyMenuAction" selected="true" text="Easy" />
+            <CheckMenuItem fx:id="mediumItem_DifficultyMenu" mnemonicParsing="false" onAction="#setDifficulty_OnDifficultyMenuAction" text="Medium" />
+            <CheckMenuItem fx:id="hardItem_DifficultyMenu" mnemonicParsing="false" onAction="#setDifficulty_OnDifficultyMenuAction" text="Hard" />
          </items>
       </Menu>
       <Menu mnemonicParsing="false" text="Size">
          <items>
-            <MenuItem mnemonicParsing="false" text="Small 10x10" />
-            <MenuItem mnemonicParsing="false" text="Medium 25x25" />
-            <MenuItem mnemonicParsing="false" text="Large 50x50" />
+            <CheckMenuItem fx:id="smallItem_SizeMenu" mnemonicParsing="false" onAction="#setSize_OnSizeMenuAction" selected="true" text="Small 10x10" />
+            <CheckMenuItem fx:id="mediumItem_SizeMenu" mnemonicParsing="false" onAction="#setSize_OnSizeMenuAction" text="Medium 25x25" />
+            <CheckMenuItem fx:id="largeItem_SizeMenu" mnemonicParsing="false" onAction="#setSize_OnSizeMenuAction" text="Large 25x50" />
          </items>
       </Menu>
       <Menu mnemonicParsing="false" text="Mode">
          <items>
-            <MenuItem mnemonicParsing="false" text="Traditional" />
-            <MenuItem mnemonicParsing="false" text="Speed Demon" />
-            <MenuItem mnemonicParsing="false" text="Count Down" />
+            <CheckMenuItem fx:id="traditionalItem_ModeMenu" mnemonicParsing="false" onAction="#setMode_onModeMenuAction" selected="true" text="Traditional" />
+            <CheckMenuItem fx:id="speedDemonItem_ModeMenu" mnemonicParsing="false" onAction="#setMode_onModeMenuAction" text="Speed Demon" />
+            <CheckMenuItem fx:id="countDownItem_ModeMenu" mnemonicParsing="false" onAction="#setMode_onModeMenuAction" text="Count Down" />
          </items>
       </Menu>
       <Menu mnemonicParsing="false" text="Sound">
          <items>
-            <MenuItem mnemonicParsing="false" text="Un-Mute" />
+            <CheckMenuItem fx:id="activeItem_SoundMenu" mnemonicParsing="false" onAction="#setSound_OnSoundMenuAction" selected="true" text="Active" />
          </items>
       </Menu>
-      <Menu mnemonicParsing="false" text="High Scores">
+      <Menu mnemonicParsing="false" text="Scores">
          <items>
-            <MenuItem mnemonicParsing="false" text="Display" />
-            <MenuItem mnemonicParsing="false" text="Erase" />
+            <MenuItem mnemonicParsing="false" onAction="#onDisplayScoresAction" text="Display" />
+            <MenuItem mnemonicParsing="false" onAction="#onEraseScoresAction" text="Erase" />
          </items>
       </Menu>
    </menus>
