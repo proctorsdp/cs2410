@@ -3,7 +3,7 @@ package model.cell;
 /**
  * Interface for a class describing the state of a cell. A valid state must be able to support select and flag methods.
  */
-public interface CellState {
+public interface ICellState {
 
     /**
      * Attempts to reveal the cell. Returns true if the observers need to be notified of a change.

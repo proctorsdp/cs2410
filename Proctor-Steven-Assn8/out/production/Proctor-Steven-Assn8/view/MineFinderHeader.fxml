@@ -46,7 +46,7 @@
                   <Text fx:id="bombCountText" strokeType="OUTSIDE" strokeWidth="0.0" text="10" />
                </children>
             </VBox>
-            <Button fx:id="resetButton" mnemonicParsing="false" onAction="#onResetButtonAction">
+            <Button fx:id="resetButton" defaultButton="true" mnemonicParsing="false" onAction="#onResetButtonAction">
                <HBox.margin>
                   <Insets left="25.0" right="25.0" />
                </HBox.margin>
@@ -68,7 +68,7 @@
                         <Font name="Arial Bold" size="15.0" />
                      </font>
                   </Text>
-                  <Text fx:id="timerText" strokeType="OUTSIDE" strokeWidth="0.0" text="00:00" />
+                  <Text fx:id="timerText" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
                </children>
             </VBox>
          </children>

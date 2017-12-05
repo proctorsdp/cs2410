@@ -1,6 +1,6 @@
 package model.cell;
 
-public abstract class FlaggedCell implements CellState {
+public abstract class FlaggedCell implements ICellState {
 
     Cell cell;
 

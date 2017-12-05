@@ -1,9 +1,13 @@
 package controller;
 
+import controller.timer.CountdownTimer;
+import controller.timer.GameTimer;
+import controller.timer.SpeedDemonTimer;
+import controller.timer.TraditionalTimer;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
-import javafx.scene.layout.Border;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import model.MineField;
@@ -11,13 +15,8 @@ import model.cell.*;
 import view.CellView;
 import view.MineFinderHeader;
 import view.MineFinderMenu;
-
-import java.time.Duration;
-import java.time.Instant;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class MineFinderController implements Observer {
 
@@ -35,7 +34,6 @@ public class MineFinderController implements Observer {
     private MineFinderHeader headerController;
 
     private MineField mineField;
-    private boolean keepPlaying;
     private int mineCount;
     private int unselectedCells;
     private String mode;
@@ -43,9 +41,10 @@ public class MineFinderController implements Observer {
     private int rowSize;
     private int colSize;
     private boolean sound;
+    private boolean gameOver;
     private String difficultyText;
-    private Timer timer;
-    private Instant start, end;
+    private String sizeText;
+    private GameTimer timer;
 
     public void initialize() {
         headerController.initialize(this);
@@ -55,10 +54,10 @@ public class MineFinderController implements Observer {
         mode = "TRADITIONAL";
         difficultyText = "EASY";
         difficulty = 0.1;
+        sizeText = "SMALL";
         rowSize = 10;
         colSize = 10;
         sound = true;
-        keepPlaying = true;
 
         mineField_TilePane.setHgap(2);
         mineField_TilePane.setVgap(2);
@@ -73,6 +72,8 @@ public class MineFinderController implements Observer {
         mineCount = mineField.getNumMines();
         mineField.addObserver(this);
 
+        mineField_TilePane.getChildren().clear();
+
         for (Cell c : mineField) {
             mineField_TilePane.getChildren().add(new CellView(this));
         }
@@ -84,62 +85,58 @@ public class MineFinderController implements Observer {
         headerController.setDifficultyText(difficultyText);
         headerController.setModeText(mode);
         headerController.setBombCountText(mineCount + "");
+        headerController.setResetButtonImage("src/view/graphics/worriedFace.png");
 
-        keepPlaying = true;
+        setTimer();
+        timer.addObserver(this);
+        headerController.setTimerText(timer.getTime() + "");
 
+        gameOver = false;
         System.out.println(mineField);
     }
 
     @Override
     public void update(Observable o, Object arg) {
-        if (timer == null) {
-            startTimer();
+        if (!timer.isRunning() && !gameOver) {
+            timer.start();
         }
         if (o instanceof Cell) {
-            Cell cell = (Cell) o;
-            int index = mineField.indexOf(cell);
-            CellView cellView = (CellView) mineField_TilePane.getChildren().get(index);
-
-            if (cell.getState() instanceof RevealedState) {
-                cellView.disableCell();
-                if (cell.isBomb()) {
-                    gameOver(cell, cellView);
-                } else {
-                    setNumber(cell, cellView);
-                }
-            } else if (cell.getState() instanceof FlaggedCell) {
-                setFlag(cell, cellView);
-            } else if (cell.getState() instanceof HiddenState) {
-                setHidden(cell, cellView);
-            }
+            updateCell((Cell) o);
+            System.out.println(mineField);
+        } else if (o instanceof GameTimer) {
+            updateTimer((GameTimer) o);
         }
-        System.out.println(mineField);
     }
 
-    private void startTimer() {
-        start = Instant.now();
-        timer = new Timer();
-        timer.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                while (keepPlaying) {
-                    end = Instant.now();
-                    Duration duration = Duration.between(start, end);
-                    if (duration.toMillis() % 1000 == 0) {
-                        headerController.setTimerText(duration.getSeconds() + "");
-                    }
-                }
-                stopTimer();
+    private void updateCell(Cell cell) {
+        int index = mineField.indexOf(cell);
+        CellView cellView = (CellView) mineField_TilePane.getChildren().get(index);
+
+        if (cell.getState() instanceof RevealedState) {
+            cellView.disableCell();
+            timer.update();
+            if (cell.isBomb()) {
+                gameOver();
+                cellView.setStyle("-fx-background-color: red");
+            } else {
+                setNumber(cell, cellView);
             }
-        }, 0, 1000);
+        } else if (cell.getState() instanceof FlaggedCell) {
+            setFlag(cell, cellView);
+        } else if (cell.getState() instanceof HiddenState) {
+            setHidden(cellView);
+        }
     }
 
-    private void stopTimer() {
-        timer.cancel();
-        timer = null;
+    private void updateTimer(GameTimer gameTimer) {
+        int time = gameTimer.getTime();
+        headerController.setTimerText(time + "");
+        if (time <= 0) {
+            Platform.runLater(() -> gameOver());
+        }
     }
 
-    private void setHidden(Cell cell, CellView cellView) {
+    private void setHidden(CellView cellView) {
         cellView.setGraphic(null);
         mineCount++;
         headerController.setBombCountText(mineCount + "");
@@ -170,7 +167,8 @@ public class MineFinderController implements Observer {
     }
 
     private void gameComplete() {
-        keepPlaying = false;
+        gameOver = true;
+        timer.stop();
         headerController.setResetButtonImage("src/view/graphics/coolFace.png");
         System.out.println("You Win!!!");
         flagRemainingBombs();
@@ -194,12 +192,12 @@ public class MineFinderController implements Observer {
         }
     }
 
-    private void gameOver(Cell cell, CellView cellView) {
-        keepPlaying = false;
+    private void gameOver() {
+        gameOver = true;
+        timer.stop();
         System.out.println("You Lose!!!");
         headerController.setResetButtonImage("src/view/graphics/deadFace.png");
         revealBombs();
-        cellView.setStyle("-fx-background-color: red");
     }
 
     private void revealBombs() {
@@ -217,16 +215,22 @@ public class MineFinderController implements Observer {
     }
 
     public void reset() {
-        keepPlaying = false;
-        mineField_TilePane.getChildren().clear();
-        headerController.setResetButtonImage("src/view/graphics/worriedFace.png");
-        headerController.setTimerText("0");
+        timer.reset();
         initializeView();
         mineFinder.getScene().getWindow().sizeToScene();
     }
 
-    public void setMode(String mode) {
-        this.mode = mode.toUpperCase();
+    private void setTimer() {
+        switch (mode) {
+            case "TRADITIONAL": timer = new TraditionalTimer(this);
+                break;
+            case "SPEED DEMON": timer = new SpeedDemonTimer(this);
+                break;
+            case "COUNT DOWN": timer = new CountdownTimer(this, difficultyText, sizeText);
+                break;
+            default:  timer = new TraditionalTimer(this);
+                break;
+        }
     }
 
     public void setDifficulty(String difficulty) {
@@ -244,8 +248,8 @@ public class MineFinderController implements Observer {
     }
 
     public void setSize(String size) {
-        size = size.toUpperCase();
-        switch (size) {
+        this.sizeText = size.toUpperCase();
+        switch (sizeText) {
             case "SMALL":
                 rowSize = 10;
                 colSize = 10;
@@ -263,6 +267,10 @@ public class MineFinderController implements Observer {
                 colSize = 10;
                 break;
         }
+    }
+
+    public void setMode(String mode) {
+        this.mode = mode.toUpperCase();
     }
 
     public void setSound(boolean sound) {

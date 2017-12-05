@@ -1,10 +1,10 @@
 package model.cell;
 
-public class RevealedState implements CellState {
+public class RevealedState implements ICellState {
 
     private Cell cell;
 
-    public RevealedState(Cell cell) {
+    RevealedState(Cell cell) {
         this.cell = cell;
     }
 

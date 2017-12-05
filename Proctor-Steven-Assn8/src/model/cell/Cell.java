@@ -4,35 +4,35 @@ import java.util.Observable;
 
 public class Cell extends Observable {
 
-    private CellState revealedState;
-    private CellState flaggedState;
-    private CellState possibleState;
-    private CellState hiddenState;
+    private ICellState revealedState;
+    private ICellState flaggedState;
+    private ICellState possibleState;
+    private ICellState hiddenState;
 
-    private CellState state;
+    private ICellState state;
 
     private boolean isBomb;
 
     private int bombsNearby;
 
 
-    CellState getRevealedState() {
+    ICellState getRevealedState() {
         return revealedState;
     }
 
-    CellState getFlaggedState() {
+    ICellState getFlaggedState() {
         return flaggedState;
     }
 
-    CellState getPossibleState() {
+    ICellState getPossibleState() {
         return possibleState;
     }
 
-    CellState getHiddenState() {
+    ICellState getHiddenState() {
         return hiddenState;
     }
 
-    void setState(CellState state) {
+    void setState(ICellState state) {
         this.state = state;
     }
 
@@ -61,7 +61,7 @@ public class Cell extends Observable {
      *  - Possible: Cannot be selected, user believes the cell MIGHT contain a bomb
      * @return the current state of the cell
      */
-    public CellState getState() {
+    public ICellState getState() {
         return state;
     }
 

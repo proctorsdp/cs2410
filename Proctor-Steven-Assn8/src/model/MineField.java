@@ -87,7 +87,6 @@ public class MineField extends ArrayList<Cell> {
             for (int j = col - 1; j <= col + 1; j++) {
                 if (j < 0 || j > numCols - 1) { continue; }
 
-                // TODO
                 this.get(indexAt(i, j)).select();
             }
         }

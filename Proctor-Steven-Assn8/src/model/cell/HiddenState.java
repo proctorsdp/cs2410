@@ -1,6 +1,6 @@
 package model.cell;
 
-public class HiddenState implements CellState {
+public class HiddenState implements ICellState {
 
     private Cell cell;
 
