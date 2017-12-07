@@ -5,12 +5,12 @@
 <?import javafx.scene.layout.TilePane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox fx:id="mineFinder" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MineFinderController">
+<VBox fx:id="mineFinder" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MineFinderController">
    <children>
       <fx:include fx:id="menu" source="MineFinderMenu.fxml" />
       <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity">
          <center>
-            <TilePane fx:id="mineField_TilePane" prefColumns="10" prefRows="10" style="-fx-border-color: grey; -fx-border-width: 8;" BorderPane.alignment="CENTER">
+            <TilePane fx:id="mineField_TilePane" prefColumns="10" prefRows="10" style="-fx-background-color: darkgrey;" BorderPane.alignment="CENTER">
                <BorderPane.margin>
                   <Insets />
                </BorderPane.margin>

@@ -2,14 +2,12 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<VBox alignment="CENTER" spacing="10.0" style="-fx-background-color: lightgrey; -fx-border-color: grey; -fx-border-width: 8;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.MineFinderHeader">
+<VBox alignment="CENTER" spacing="10.0" style="-fx-border-color: darkgrey; -fx-border-width: 4; -fx-background-color: lightgrey;" stylesheets="@../styleSheets/cellStyles.css" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.MineFinderHeader">
    <padding>
       <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
    </padding>
@@ -46,20 +44,13 @@
                   <Text fx:id="bombCountText" strokeType="OUTSIDE" strokeWidth="0.0" text="10" />
                </children>
             </VBox>
-            <Button fx:id="resetButton" mnemonicParsing="false" onAction="#onResetButtonAction">
+            <Button fx:id="resetButton" mnemonicParsing="false" onAction="#onResetButtonAction" prefHeight="40.0" prefWidth="40.0">
                <HBox.margin>
                   <Insets left="25.0" right="25.0" />
                </HBox.margin>
                <font>
                   <Font name="Arial Bold" size="15.0" />
                </font>
-               <graphic>
-                  <ImageView>
-                     <image>
-                        <Image url="@graphics/worriedFace.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
             </Button>
             <VBox alignment="CENTER" spacing="5.0">
                <children>

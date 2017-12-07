@@ -1,0 +1,91 @@
+.revealed-cell{
+    -fx-background-color: lightgrey;
+    -fx-font-family: sans-serif;
+    -fx-font-weight: bold;
+    -fx-font-size: 15;
+}
+
+.zero-bombs {
+    -fx-text-fill: lightgrey;
+}
+
+.one-bombs {
+    -fx-text-fill: black;
+}
+
+.two-bombs {
+    -fx-text-fill: royalblue;
+}
+
+.three-bombs{
+    -fx-text-fill: midnightblue;
+}
+
+.four-bombs{
+    -fx-text-fill: seagreen;
+}
+
+.five-bombs{
+    -fx-text-fill: darkgreen;
+}
+
+.six-bombs{
+    -fx-text-fill: darkgoldenrod;
+}
+
+.seven-bombs{
+    -fx-text-fill: orangered;
+}
+
+.eight-bombs{
+    -fx-text-fill: red;
+}
+
+.flagged-cell{
+    -fx-background-color: gold;
+    -fx-background-image: url("../graphics/flag.png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-size: 70%;
+}
+
+.possible-cell{
+    -fx-background-color: gold;
+    -fx-background-image: url("../graphics/questionMark.png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-size: 60%;
+}
+
+.correct-flag{
+    -fx-background-color: green;
+}
+
+.unmarked-bomb{
+    -fx-background-color: red;
+    -fx-background-image: url("../graphics/bomb.png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-size: 60%;
+}
+
+.victory-face{
+    -fx-background-color: green;
+    -fx-background-image: url("../graphics/victoryFace.png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+
+.defeat-face{
+    -fx-background-color: red;
+    -fx-background-image: url("../graphics/defeatFace.png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+
+.normal-face{
+    -fx-background-image: url("../graphics/normalFace.png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+

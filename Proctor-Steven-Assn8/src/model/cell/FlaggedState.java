@@ -1,6 +1,6 @@
 package model.cell;
 
-public class FlaggedState extends FlaggedCell {
+public class FlaggedState extends MarkedState {
 
     FlaggedState(Cell cell) {
         super(cell);

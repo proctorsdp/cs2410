@@ -55,15 +55,15 @@ public class MineFinderMenu {
             if (mode.equals(traditionalItem_ModeMenu)) {
                 speedDemonItem_ModeMenu.setSelected(false);
                 countDownItem_ModeMenu.setSelected(false);
-                controller.setMode("traditional");
+                controller.setModeText("traditional");
             } else if (mode.equals(speedDemonItem_ModeMenu)) {
                 traditionalItem_ModeMenu.setSelected(false);
                 countDownItem_ModeMenu.setSelected(false);
-                controller.setMode("speed demon");
+                controller.setModeText("speed demon");
             } else if (mode.equals(countDownItem_ModeMenu)) {
                 speedDemonItem_ModeMenu.setSelected(false);
                 traditionalItem_ModeMenu.setSelected(false);
-                controller.setMode("count down");
+                controller.setModeText("count down");
             }
         }
     }

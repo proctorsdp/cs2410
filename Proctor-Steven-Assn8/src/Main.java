@@ -10,7 +10,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        FXMLLoader mineFinderLoader = new FXMLLoader(getClass().getResource("../view/MineFinder.fxml"));
+        FXMLLoader mineFinderLoader = new FXMLLoader(getClass().getResource("../view/fxml/MineFinder.fxml"));
         Parent root = mineFinderLoader.load();
         primaryStage.setTitle("Mine Finder");
         primaryStage.setScene(new Scene(root));

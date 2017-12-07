@@ -1,4 +1,4 @@
-package tests;
+package tests.modelTests;
 
 import model.cell.*;
 import org.junit.jupiter.api.Test;
@@ -8,7 +8,6 @@ class CellTest {
     private Cell emptyCell;
     private Cell bombCell;
 
-    // TODO - add observer to ensure no state changes occurred
     @Test
     void test() {
         emptyCell = new Cell(false);
@@ -27,7 +26,8 @@ class CellTest {
 
         selectCells();
 
-        // TODO - Check for Notify()
+        assert emptyCell.getState() instanceof FlaggedState;
+        assert bombCell.getState() instanceof FlaggedState;
 
         flagCells();
 
@@ -36,7 +36,8 @@ class CellTest {
 
         selectCells();
 
-        // TODO - Check for Notify()
+        assert emptyCell.getState() instanceof PossibleState;
+        assert bombCell.getState() instanceof PossibleState;
 
         flagCells();
 
@@ -45,10 +46,14 @@ class CellTest {
 
         selectCells();
 
-        // TODO - Check for Notify()
-
         assert emptyCell.getState() instanceof RevealedState;
         assert bombCell.getState() instanceof RevealedState;
+
+        emptyCell.setBombsNearby(3);
+        bombCell.setBombsNearby(3);
+
+        assert emptyCell.getBombsNearby() == 3;
+        assert bombCell.getBombsNearby() == 0;
     }
 
     private void flagCells() {
@@ -60,5 +65,4 @@ class CellTest {
         emptyCell.select();
         bombCell.select();
     }
-
 }

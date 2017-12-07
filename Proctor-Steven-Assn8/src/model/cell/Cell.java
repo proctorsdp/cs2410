@@ -5,35 +5,30 @@ import java.util.Observable;
 public class Cell extends Observable {
 
     private ICellState revealedState;
-    private ICellState flaggedState;
-    private ICellState possibleState;
-    private ICellState hiddenState;
-
-    private ICellState state;
-
-    private boolean isBomb;
-
-    private int bombsNearby;
-
 
     ICellState getRevealedState() {
         return revealedState;
     }
 
+
+    private ICellState flaggedState;
+
     ICellState getFlaggedState() {
         return flaggedState;
     }
+
+
+    private ICellState possibleState;
 
     ICellState getPossibleState() {
         return possibleState;
     }
 
+
+    private ICellState hiddenState;
+
     ICellState getHiddenState() {
         return hiddenState;
-    }
-
-    void setState(ICellState state) {
-        this.state = state;
     }
 
     /**
@@ -53,6 +48,12 @@ public class Cell extends Observable {
         this.bombsNearby = 0;
     }
 
+    private ICellState state;
+
+    void setState(ICellState state) {
+        this.state = state;
+    }
+
     /**
      * Returns the current state of the Cell:
      *  - Hidden: Cell is hidden
@@ -64,6 +65,9 @@ public class Cell extends Observable {
     public ICellState getState() {
         return state;
     }
+
+
+    private int bombsNearby;
 
     /**
      * Set the number of bombs surrounding the cell. Bombs may be directly adjacent or diagonal to the cell. Should only
@@ -82,6 +86,7 @@ public class Cell extends Observable {
     public int getBombsNearby() {
         return bombsNearby;
     }
+
 
     /**
      * Select the cell and attempts to reveal its contents. Flagged & Possible cells cannot be revealed. Will notify any
@@ -110,6 +115,8 @@ public class Cell extends Observable {
         }
     }
 
+    private boolean isBomb;
+
     /**
      * Returns whether or not the cell contains a bomb.
      * @return true if the cell contains a bomb, otherwise false.
@@ -117,6 +124,7 @@ public class Cell extends Observable {
     public boolean isBomb() {
         return isBomb;
     }
+
 
     /**
      * Returns a string containing "B" if the cell contains a bomb. Otherwise returns the number of bombs surrounding

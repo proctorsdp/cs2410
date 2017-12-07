@@ -12,6 +12,12 @@ public abstract class GameTimer extends Observable {
 
     int time;
 
+    boolean reset;
+
+    int timeDelay;
+
+    int period;
+
     private Timer timer;
 
     private TimerTask timerTask;
@@ -21,7 +27,10 @@ public abstract class GameTimer extends Observable {
     GameTimer(MineFinderController controller) {
         this.controller = controller;
         this.timer = new Timer("GameTimer", true);
+        this.timeDelay = 1000;
+        this.period = 1000;
         this.isRunning = false;
+        this.reset = false;
     }
 
     public void start() {
@@ -29,34 +38,35 @@ public abstract class GameTimer extends Observable {
         timerTask = new TimerTask() {
             @Override
             public void run() {
-                incrementTime();
+                if (reset) {
+                    resetTime();
+                    reset = false;
+                } else {
+                    incrementTime();
+                }
                 setChanged();
                 notifyObservers();
                 clearChanged();
             }
         };
-        timer.scheduleAtFixedRate(timerTask,1000, 1000);
+        timer.scheduleAtFixedRate(timerTask, timeDelay, period);
     }
 
     abstract void incrementTime();
 
-    public void reset() {
-        if (isRunning) {
-            stop();
-            resetTime();
-        }
-        isRunning = false;
-    }
 
     abstract void resetTime();
 
     public void stop() {
+        if (isRunning) {
+            timerTask.cancel();
+            timer.cancel();
+        }
         isRunning = false;
-        timerTask.cancel();
-        timer.cancel();
+        resetTime();
     }
 
-    public void update() {
+    public void reset() {
         // Do Nothing
     }
 

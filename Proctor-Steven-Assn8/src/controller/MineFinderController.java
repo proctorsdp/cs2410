@@ -1,9 +1,9 @@
 package controller;
 
-import controller.timer.CountdownTimer;
+import controller.factories.DifficultyFactory;
+import controller.factories.SizeFactory;
+import controller.factories.TimerFactory;
 import controller.timer.GameTimer;
-import controller.timer.SpeedDemonTimer;
-import controller.timer.TraditionalTimer;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
@@ -13,6 +13,7 @@ import javafx.scene.layout.VBox;
 import model.MineField;
 import model.cell.*;
 import view.CellView;
+import view.GradingInfo;
 import view.MineFinderHeader;
 import view.MineFinderMenu;
 import java.util.Observable;
@@ -36,75 +37,76 @@ public class MineFinderController implements Observer {
     private MineField mineField;
     private int mineCount;
     private int unselectedCells;
-    private String mode;
+    private String modeText;
     private double difficulty;
-    private int rowSize;
-    private int colSize;
     private boolean sound;
     private boolean gameOver;
     private String difficultyText;
     private String sizeText;
+    private Size size;
     private GameTimer timer;
 
     public void initialize() {
         headerController.initialize(this);
         menuController.initialize(this);
 
-        mineCount = 0;
-        mode = "TRADITIONAL";
+        difficultyFactory = new DifficultyFactory();
+        sizeFactory = new SizeFactory();
+        timerFactory = new TimerFactory();
+
+        modeText = "TRADITIONAL";
         difficultyText = "EASY";
         difficulty = 0.1;
         sizeText = "SMALL";
-        rowSize = 10;
-        colSize = 10;
+        size = new Size(10, 10);
         sound = true;
 
         mineField_TilePane.setHgap(2);
         mineField_TilePane.setVgap(2);
-        mineField_TilePane.setStyle("-fx-background-color: darkgrey");
+        mineField_TilePane.setAlignment(Pos.CENTER);
 
         initializeView();
+
+        GradingInfo gradingInfo = new GradingInfo();
+        gradingInfo.showAndWait();
     }
 
     private void initializeView() {
-        mineField = new MineField(rowSize, colSize, difficulty);
+        mineField = new MineField(size.getRows(), size.getCols(), difficulty);
         unselectedCells = mineField.size();
         mineCount = mineField.getNumMines();
         mineField.addObserver(this);
 
         mineField_TilePane.getChildren().clear();
 
-        for (Cell c : mineField) {
+        for (int i = 0; i < mineField.size(); i++) {
             mineField_TilePane.getChildren().add(new CellView(this));
         }
 
-        mineField_TilePane.setPrefRows(rowSize);
-        mineField_TilePane.setPrefColumns(colSize);
-        mineField_TilePane.setAlignment(Pos.CENTER);
+        mineField_TilePane.setPrefRows(size.getRows());
+        mineField_TilePane.setPrefColumns(size.getCols());
 
         headerController.setDifficultyText(difficultyText);
-        headerController.setModeText(mode);
+        headerController.setModeText(modeText);
         headerController.setBombCountText(mineCount + "");
-        headerController.setResetButtonImage("src/view/graphics/worriedFace.png");
+        headerController.setResetButtonStyle("normal-face");
 
         setTimer();
         timer.addObserver(this);
         headerController.setTimerText(timer.getTime() + "");
 
         gameOver = false;
-        System.out.println(mineField);
     }
 
     @Override
     public void update(Observable o, Object arg) {
-        if (!timer.isRunning() && !gameOver) {
-            timer.start();
-        }
         if (o instanceof Cell) {
             updateCell((Cell) o);
-            System.out.println(mineField);
         } else if (o instanceof GameTimer) {
             updateTimer((GameTimer) o);
+        }
+        if (!timer.isRunning() && !gameOver) {
+            timer.start();
         }
     }
 
@@ -114,14 +116,15 @@ public class MineFinderController implements Observer {
 
         if (cell.getState() instanceof RevealedState) {
             cellView.disableCell();
-            timer.update();
+            timer.reset();
+
             if (cell.isBomb()) {
                 gameOver();
-                cellView.setStyle("-fx-background-color: red");
             } else {
                 setNumber(cell, cellView);
             }
-        } else if (cell.getState() instanceof FlaggedCell) {
+
+        } else if (cell.getState() instanceof MarkedState) {
             setFlag(cell, cellView);
         } else if (cell.getState() instanceof HiddenState) {
             setHidden(cellView);
@@ -131,8 +134,9 @@ public class MineFinderController implements Observer {
     private void updateTimer(GameTimer gameTimer) {
         int time = gameTimer.getTime();
         headerController.setTimerText(time + "");
+
         if (time <= 0) {
-            Platform.runLater(() -> gameOver());
+            Platform.runLater(this::gameOver);
         }
     }
 
@@ -147,20 +151,22 @@ public class MineFinderController implements Observer {
     private void setFlag(Cell cell, CellView cellView) {
         if (cell.getState() instanceof FlaggedState) {
             mineCount--;
-            cellView.setButtonImage("src/view/graphics/flag.png");
+            cellView.getStyleClass().add("flagged-cell");
         } else if (cell.getState() instanceof PossibleState) {
-            cellView.setButtonImage("src/view/graphics/possible.png");
+            cellView.getStyleClass().add("possible-cell");
         }
+
         headerController.setBombCountText(mineCount + "");
-        cellView.getStyleClass().add("flagged-button");
     }
 
     private void setNumber(Cell cell, CellView cellView) {
         cellView.setButtonText(cell.getBombsNearby() + "");
         unselectedCells--;
+
         if (cell.getBombsNearby() == 0) {
             mineField.selectNearbyCells(cell);
         }
+
         if (unselectedCells == mineField.getNumMines()) {
             gameComplete();
         }
@@ -169,8 +175,7 @@ public class MineFinderController implements Observer {
     private void gameComplete() {
         gameOver = true;
         timer.stop();
-        headerController.setResetButtonImage("src/view/graphics/coolFace.png");
-        System.out.println("You Win!!!");
+        headerController.setResetButtonStyle("victory-face");
         flagRemainingBombs();
     }
 
@@ -195,8 +200,7 @@ public class MineFinderController implements Observer {
     private void gameOver() {
         gameOver = true;
         timer.stop();
-        System.out.println("You Lose!!!");
-        headerController.setResetButtonImage("src/view/graphics/deadFace.png");
+        headerController.setResetButtonStyle("defeat-face");
         revealBombs();
     }
 
@@ -204,73 +208,45 @@ public class MineFinderController implements Observer {
         for (Cell c : mineField) {
             CellView view = (CellView) mineField_TilePane.getChildren().get(mineField.indexOf(c));
             view.disableCell();
+
             if (c.isBomb()) {
-                if (c.getState() instanceof FlaggedCell) {
+                if (c.getState() instanceof MarkedState) {
                     view.getStyleClass().add("correct-flag");
                 } else {
-                    view.setButtonImage("src/view/graphics/bomb.png");
+                    view.getStyleClass().add("unmarked-bomb");
                 }
             }
         }
     }
 
     public void reset() {
-        timer.reset();
+        timer.stop();
         initializeView();
         mineFinder.getScene().getWindow().sizeToScene();
     }
 
+    private TimerFactory timerFactory;
+
     private void setTimer() {
-        switch (mode) {
-            case "TRADITIONAL": timer = new TraditionalTimer(this);
-                break;
-            case "SPEED DEMON": timer = new SpeedDemonTimer(this);
-                break;
-            case "COUNT DOWN": timer = new CountdownTimer(this, difficultyText, sizeText);
-                break;
-            default:  timer = new TraditionalTimer(this);
-                break;
-        }
+        timer = timerFactory.createTimer(modeText, this);
     }
+
+    private DifficultyFactory difficultyFactory;
 
     public void setDifficulty(String difficulty) {
         this.difficultyText = difficulty.toUpperCase();
-        switch (difficultyText) {
-            case "EASY": this.difficulty = 0.1;
-                break;
-            case "MEDIUM": this.difficulty = 0.25;
-                break;
-            case "HARD": this.difficulty = 0.4;
-                break;
-            default: this.difficulty = 0.1;
-                break;
-        }
+        this.difficulty = difficultyFactory.createDifficulty(difficultyText);
     }
+
+    private SizeFactory sizeFactory;
 
     public void setSize(String size) {
         this.sizeText = size.toUpperCase();
-        switch (sizeText) {
-            case "SMALL":
-                rowSize = 10;
-                colSize = 10;
-                break;
-            case "MEDIUM":
-                rowSize = 25;
-                colSize = 25;
-                break;
-            case "LARGE":
-                rowSize = 25;
-                colSize = 50;
-                break;
-            default:
-                rowSize = 10;
-                colSize = 10;
-                break;
-        }
+        this.size = sizeFactory.createSize(sizeText);
     }
 
-    public void setMode(String mode) {
-        this.mode = mode.toUpperCase();
+    public void setModeText(String modeText) {
+        this.modeText = modeText.toUpperCase();
     }
 
     public void setSound(boolean sound) {
@@ -291,5 +267,13 @@ public class MineFinderController implements Observer {
     public void selectCell(CellView cellView) {
         int index = mineField_TilePane.getChildren().indexOf(cellView);
         mineField.select(index);
+    }
+
+    public String getDifficultyText() {
+        return difficultyText;
+    }
+
+    public String getSizeText() {
+        return sizeText;
     }
 }

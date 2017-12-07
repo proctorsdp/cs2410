@@ -4,9 +4,7 @@ import controller.MineFinderController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
-import java.io.File;
 
 public class MineFinderHeader {
 
@@ -26,9 +24,7 @@ public class MineFinderHeader {
     private Text timerText;
 
     @FXML
-    void onResetButtonAction(ActionEvent event) {
-        controller.reset();
-    }
+    void onResetButtonAction(ActionEvent event) { controller.reset(); }
 
     private MineFinderController controller;
 
@@ -52,11 +48,9 @@ public class MineFinderHeader {
         this.timerText.setText(timerText);
     }
 
-    public void setResetButtonImage(String imageURL) {
-        resetButton.setText(null);
-        resetButton.setGraphic(null);
-        ImageView graphic = new ImageView(new File(imageURL).toURI().toString());
-        graphic.setFitHeight(resetButton.getPrefHeight());
-        resetButton.setGraphic(graphic);
+    public void setResetButtonStyle(String style) {
+        resetButton.getStyleClass().clear();
+        resetButton.getStyleClass().add("button");
+        resetButton.getStyleClass().add(style);
     }
 }

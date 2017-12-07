@@ -8,6 +8,7 @@ public class SpeedDemonTimer extends GameTimer {
     public SpeedDemonTimer(MineFinderController controller) {
         super(controller);
         this.time = 10;
+        this.timeDelay = 0;
     }
 
     @Override
@@ -21,11 +22,8 @@ public class SpeedDemonTimer extends GameTimer {
     }
 
     @Override
-    public void update() {
-        resetTime();
-//        setChanged();
-//        notifyObservers();
-//        clearChanged();
+    public void reset() {
+        reset = true;
     }
 
 }

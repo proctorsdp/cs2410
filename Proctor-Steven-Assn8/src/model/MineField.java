@@ -1,7 +1,6 @@
 package model;
 
 import model.cell.Cell;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Observer;
@@ -11,37 +10,6 @@ public class MineField extends ArrayList<Cell> {
     private int size;
     private int numRows;
     private int numCols;
-    private int numMines;
-
-    private int indexAt(int row, int col) {
-        return (row * numCols) + col;
-    }
-
-    private void updateBombCount() {
-        for (Cell c : this) {
-            c.setBombsNearby(countNearbyBombs(indexOf(c)));
-        }
-    }
-
-    private int countNearbyBombs(int index) {
-        int row = index / numCols;
-        int col = index % numCols;
-        int bombs = 0;
-
-        for (int i = row - 1; i <= row + 1; i++) {
-            if (i < 0 || i > numRows - 1) { continue; }
-
-            for (int j = col - 1; j <= col + 1; j++) {
-                if (j < 0 || j > numCols - 1) { continue; }
-
-                if (this.get(indexAt(i, j)).isBomb()) {
-                    bombs++;
-                }
-            }
-        }
-
-        return bombs;
-    }
 
     public MineField(int numRows, int numCols, double percentMines) {
         if (percentMines > 0.4 || percentMines < 0.1) {
@@ -118,6 +86,8 @@ public class MineField extends ArrayList<Cell> {
         }
     }
 
+    private int numMines;
+
     public int getNumMines() {
         return numMines;
     }
@@ -150,4 +120,35 @@ public class MineField extends ArrayList<Cell> {
             c.deleteObserver(observer);
         }
     }
+
+    private int indexAt(int row, int col) {
+        return (row * numCols) + col;
+    }
+
+    private void updateBombCount() {
+        for (Cell c : this) {
+            c.setBombsNearby(countNearbyBombs(indexOf(c)));
+        }
+    }
+
+    private int countNearbyBombs(int index) {
+        int row = index / numCols;
+        int col = index % numCols;
+        int bombs = 0;
+
+        for (int i = row - 1; i <= row + 1; i++) {
+            if (i < 0 || i > numRows - 1) { continue; }
+
+            for (int j = col - 1; j <= col + 1; j++) {
+                if (j < 0 || j > numCols - 1) { continue; }
+
+                if (this.get(indexAt(i, j)).isBomb()) {
+                    bombs++;
+                }
+            }
+        }
+
+        return bombs;
+    }
+
 }

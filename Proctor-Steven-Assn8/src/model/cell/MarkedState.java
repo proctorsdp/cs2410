@@ -1,10 +1,10 @@
 package model.cell;
 
-public abstract class FlaggedCell implements ICellState {
+public abstract class MarkedState implements ICellState {
 
     Cell cell;
 
-    FlaggedCell(Cell cell) {
+    MarkedState(Cell cell) {
         this.cell = cell;
     }
 
