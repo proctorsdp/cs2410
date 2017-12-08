@@ -1,24 +1,24 @@
 package view;
 
-import controller.MineFinderController;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.text.Font;
 
 /**
- *
+ * The view for the class Cell. Tells the controller to update the model when clicked. Displays the contents of model.
  *
  * @author Steven Proctor
  * @version 1.0
  */
-public class CellView extends Button {
+public class CellView extends Button implements ICellView {
 
-    private MineFinderController controller;
 
-    public CellView(MineFinderController controller) {
+    private ICellViewController controller;
+
+
+
+    public CellView(ICellViewController controller) {
         this.controller = controller;
-        this.setFont(new Font(15));
         this.setOnMousePressed(this::mouseClicked);
         this.setOnMouseEntered(this::highlightCell);
         this.setOnMouseExited(this::deHighlightCell);
@@ -27,14 +27,29 @@ public class CellView extends Button {
         this.setMinSize(30, 30);
     }
 
+    /**
+     * Removes the highlight from the button when the mouse leaves the button
+     * @param event not used
+     */
     private void deHighlightCell(MouseEvent event) {
         this.setStyle(null);
     }
 
+
+    /**
+     * Highlights the button when the mouse enters the button
+     * @param event not used
+     */
     private void highlightCell(MouseEvent event) {
         this.setStyle("-fx-background-color: lightskyblue");
     }
 
+
+    /**
+     * Tells the controller to select the cell if it has been left clicked.
+     * Tells the controller to flag the cell if it has been right clicked.
+     * @param mouseEvent A MouseEvent that occurs when the button is pressed
+     */
     private void mouseClicked(MouseEvent mouseEvent) {
         if (mouseEvent.getButton().equals(MouseButton.SECONDARY)) {
             controller.flagCell(this);
@@ -43,6 +58,10 @@ public class CellView extends Button {
         }
     }
 
+    /**
+     * Sets the text and style of the button
+     * @param text text to be displayed in the button
+     */
     public void setButtonText(String text) {
         this.setGraphic(null);
         this.setText(text);
@@ -50,6 +69,11 @@ public class CellView extends Button {
         setTextColor(Integer.parseInt(text));
     }
 
+
+    /**
+     * Sets the button style based on the value of the integer passed in.
+     * @param num an integer that describes the number of bombs surrounding the button.
+     */
     private void setTextColor(int num) {
         switch (num) {
             case 0: this.getStyleClass().add("zero-bombs");
@@ -75,10 +99,15 @@ public class CellView extends Button {
         }
     }
 
+    /**
+     * Makes the button transparent to mouseEvents
+     */
     public void disableCell() {
-        this.setOnMouseEntered(null);
         this.setStyle(null);
-        this.setOnMouseExited(null);
         this.setMouseTransparent(true);
+    }
+
+    public void addStyle(String style) {
+        this.getStyleClass().add(style);
     }
 }

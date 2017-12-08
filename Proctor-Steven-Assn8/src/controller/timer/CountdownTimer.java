@@ -1,13 +1,24 @@
 package controller.timer;
 
-import controller.MineFinderController;
-
+/**
+ * Count Down Timer decrements the time each period. Initial time depends on the board size and difficulty.
+ *
+ * @author Steven Proctor
+ * @version 1.0
+ */
 public class CountdownTimer extends GameTimer {
 
+    /**
+     * The amount of time given to solve a board of particular size and difficulty
+     */
     private int initialTime;
 
-    public CountdownTimer(MineFinderController controller, String difficulty, String size) {
-        super(controller);
+    /**
+     * Default Constructor. Determines appropriate initialTime
+     * @param difficulty String describing the difficulty of the game
+     * @param size String describing the size of the board
+     */
+    public CountdownTimer(String difficulty, String size) {
 
         size = size.toUpperCase();
         switch (size) {
@@ -38,11 +49,17 @@ public class CountdownTimer extends GameTimer {
         this.time = this.initialTime;
     }
 
+    /**
+     * decrements time by one
+     */
     @Override
     void incrementTime() {
         time--;
     }
 
+    /**
+     * reset time to initialTime
+     */
     @Override
     void resetTime() {
         time = initialTime;

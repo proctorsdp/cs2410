@@ -1,8 +1,10 @@
 package model;
 
 import model.cell.Cell;
+import model.cell.ICell;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.Observer;
 
 /**
@@ -13,7 +15,7 @@ import java.util.Observer;
  * @author Steven Proctor
  * @version 1.0
  */
-public class MineField extends ArrayList<Cell> {
+public class MineField extends ArrayList<ICell> implements IMineField {
 
     /**
      * Contains the number of cells in the mineField
@@ -74,8 +76,8 @@ public class MineField extends ArrayList<Cell> {
      * Calls the select function for all eight cells surrounding the given cell.
      * @param c a cell whose neighbors need to be selected
      */
-    public void selectNearbyCells(Cell c) {
-        int index = this.indexOf(c);
+    public void selectNearbyCells(ICell c) {
+        int index = this.indexOfCell(c);
         int row = index / numCols;
         int col = index % numCols;
 
@@ -112,6 +114,11 @@ public class MineField extends ArrayList<Cell> {
         }
     }
 
+    @Override
+    public Iterator getIterator() {
+        return this.iterator();
+    }
+
     /**
      * Calls teh flag method of a cell, given its location in the minefield.
      * @param row the row in which the cell is located in the minefield
@@ -134,7 +141,6 @@ public class MineField extends ArrayList<Cell> {
         }
     }
 
-
     /**
      * Contains the number of mines in the minefield
      */
@@ -149,6 +155,11 @@ public class MineField extends ArrayList<Cell> {
     }
 
 
+    public int indexOfCell(ICell cell) {
+        return this.indexOf(cell);
+    }
+
+
     /**
      * Returns a string of the minefield, formatted to its appropriate dimensions.
      * @return a string containing the minefield
@@ -157,10 +168,10 @@ public class MineField extends ArrayList<Cell> {
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
 
-        for (Cell c : this) {
+        for (ICell c : this) {
             stringBuilder.append(c);
 
-            if ((this.indexOf(c) + 1) % numCols == 0) {
+            if ((this.indexOfCell(c) + 1) % numCols == 0) {
                 stringBuilder.append("\n");
             } else {
                 stringBuilder.append(" ");
@@ -176,7 +187,7 @@ public class MineField extends ArrayList<Cell> {
      * @param observer an object which extends Observer
      */
     public void addObserver(Observer observer) {
-        for (Cell c : this) {
+        for (ICell c : this) {
             c.addObserver(observer);
         }
     }
@@ -187,7 +198,7 @@ public class MineField extends ArrayList<Cell> {
      * @param observer and object which extends Observer
      */
     public void removeObserver(Observer observer) {
-        for (Cell c : this) {
+        for (ICell c : this) {
             c.deleteObserver(observer);
         }
     }
@@ -208,8 +219,8 @@ public class MineField extends ArrayList<Cell> {
      * Calls countNearbyBombs for each cell in the minefield and sets that value
      */
     private void updateBombCount() {
-        for (Cell c : this) {
-            c.setBombsNearby(countNearbyBombs(indexOf(c)));
+        for (ICell c : this) {
+            c.setBombsNearby(countNearbyBombs(indexOfCell(c)));
         }
     }
 

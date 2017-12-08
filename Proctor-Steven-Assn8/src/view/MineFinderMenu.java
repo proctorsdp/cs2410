@@ -1,22 +1,42 @@
 package view;
 
-import controller.MineFinderController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckMenuItem;
 
+
+/**
+ * Menu view used to change the state of the game. Size, difficulty, and mode can all be changed.
+ *
+ * @author Steven Proctor
+ * @version 1.0
+ */
 public class MineFinderMenu {
 
 
+    /**
+     * MenuItem that sets difficulty as easy
+     */
     @FXML
     private CheckMenuItem easyItem_DifficultyMenu;
 
+    /**
+     * MenuItem that sets difficulty as medium
+     */
     @FXML
     private CheckMenuItem mediumItem_DifficultyMenu;
 
+    /**
+     * MenuItem that sets difficulty as hard
+     */
     @FXML
     private CheckMenuItem hardItem_DifficultyMenu;
 
+    /**
+     * Checks the difficulty that has been most recently selected, uncheck the other difficulties.
+     * Updates the difficulty in the controller.
+     * @param event ActionEvent when an item in the difficulty menu is selected
+     */
     @FXML
     void setDifficulty_OnDifficultyMenuAction(ActionEvent event) {
         if (event.getSource() instanceof CheckMenuItem) {
@@ -38,15 +58,29 @@ public class MineFinderMenu {
         }
     }
 
+    /**
+     * MenuItem that sets game mode as traditional
+     */
     @FXML
     private CheckMenuItem traditionalItem_ModeMenu;
 
+    /**
+     * MenuItem that sets game mode as speed demon
+     */
     @FXML
     private CheckMenuItem speedDemonItem_ModeMenu;
 
+    /**
+     * MenuItem that sets game mode as count down
+     */
     @FXML
     private CheckMenuItem countDownItem_ModeMenu;
 
+    /**
+     * Checks the mode that has been most recently selected, uncheck the other mode.
+     * Updates the mode in the controller.
+     * @param event ActionEvent when an item in the mode menu is selected
+     */
     @FXML
     void setMode_onModeMenuAction(ActionEvent event) {
         if (event.getSource() instanceof CheckMenuItem) {
@@ -68,15 +102,30 @@ public class MineFinderMenu {
         }
     }
 
+    /**
+     * MenuItem that sets size as small
+     */
     @FXML
     private CheckMenuItem smallItem_SizeMenu;
 
+    /**
+     * MenuItem that sets size as medium
+     */
     @FXML
     private CheckMenuItem mediumItem_SizeMenu;
 
+    /**
+     * MenuItem that sets size as large
+     */
     @FXML
     private CheckMenuItem largeItem_SizeMenu;
 
+
+    /**
+     * Checks the size that has been most recently selected, uncheck the other size.
+     * Updates the size in the controller.
+     * @param event ActionEvent when an item in the size menu is selected
+     */
     @FXML
     void setSize_OnSizeMenuAction(ActionEvent event) {
         if (event.getSource() instanceof CheckMenuItem) {
@@ -98,9 +147,16 @@ public class MineFinderMenu {
         }
     }
 
+    /**
+     * MenuItem used to toggle the game sound on and off
+     */
     @FXML
     private CheckMenuItem activeItem_SoundMenu;
 
+    /**
+     * Toggles the sound active item on and off. Updates the controller with its status
+     * @param event ActionEvent when the active sound menu item is selected
+     */
     @FXML
     void setSound_OnSoundMenuAction(ActionEvent event) {
         if (event.getSource() instanceof CheckMenuItem) {
@@ -112,19 +168,36 @@ public class MineFinderMenu {
         }
     }
 
+    /**
+     * Displays the scoreboard for the current mode and difficulty.
+     * CURRENTLY UNSUPPORTED
+     * @param event not used
+     */
     @FXML
     void onDisplayScoresAction(ActionEvent event) {
         controller.displayScores();
     }
 
+    /**
+     * Erases the scoreboard for the current mode and difficulty.
+     * CURRENTLY UNSUPPORTED
+     * @param event not used
+     */
     @FXML
     void onEraseScoresAction(ActionEvent event) {
         controller.eraseScores();
     }
 
-    private MineFinderController controller;
+    /**
+     * MineFinderController used to update information when the menu changes
+     */
+    private IMenuController controller;
 
-    public void initialize(MineFinderController controller) {
+    /**
+     * Sets the MineFinderController used by the class
+     * @param controller MineFinderController
+     */
+    public void initialize(IMenuController controller) {
         this.controller = controller;
     }
 }

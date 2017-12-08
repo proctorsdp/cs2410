@@ -3,7 +3,7 @@ package controller;
 import controller.factories.DifficultyFactory;
 import controller.factories.SizeFactory;
 import controller.factories.TimerFactory;
-import controller.timer.GameTimer;
+import controller.timer.IGameTimer;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
@@ -11,15 +11,15 @@ import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
+import model.IMineField;
 import model.MineField;
 import model.cell.*;
-import view.CellView;
-import view.MineFinderHeader;
-import view.MineFinderMenu;
+import view.*;
+import java.util.Iterator;
 import java.util.Observable;
 import java.util.Observer;
 
-public class MineFinderController implements Observer {
+public class MineFinderController implements Observer, ICellViewController, IMenuController, IHeaderController {
 
     @FXML
     public TilePane mineField_TilePane;
@@ -34,7 +34,7 @@ public class MineFinderController implements Observer {
     @FXML
     private MineFinderHeader headerController;
 
-    private MineField mineField;
+    private IMineField mineField;
     private int mineCount;
     private int unselectedCells;
     private String modeText;
@@ -44,7 +44,7 @@ public class MineFinderController implements Observer {
     private String difficultyText;
     private String sizeText;
     private Size size;
-    private GameTimer timer;
+    private IGameTimer timer;
 
     public void initialize() {
         headerController.initialize(this);
@@ -99,8 +99,8 @@ public class MineFinderController implements Observer {
     public void update(Observable o, Object arg) {
         if (o instanceof Cell) {
             updateCell((Cell) o);
-        } else if (o instanceof GameTimer) {
-            updateTimer((GameTimer) o);
+        } else if (o instanceof IGameTimer) {
+            updateTimer((IGameTimer) o);
         }
         if (!timer.isRunning() && !gameOver) {
             timer.start();
@@ -108,7 +108,7 @@ public class MineFinderController implements Observer {
     }
 
     private void updateCell(Cell cell) {
-        int index = mineField.indexOf(cell);
+        int index = mineField.indexOfCell(cell);
         CellView cellView = (CellView) mineField_TilePane.getChildren().get(index);
 
         if (cell.getState() instanceof RevealedState) {
@@ -128,7 +128,7 @@ public class MineFinderController implements Observer {
         }
     }
 
-    private void updateTimer(GameTimer gameTimer) {
+    private void updateTimer(IGameTimer gameTimer) {
         int time = gameTimer.getTime();
         headerController.setTimerText(time + "");
 
@@ -178,16 +178,18 @@ public class MineFinderController implements Observer {
     }
 
     private void flagRemainingBombs() {
-        for (Cell c : mineField) {
-            CellView view = (CellView) mineField_TilePane.getChildren().get(mineField.indexOf(c));
+        Iterator iterator = mineField.getIterator();
+        while (iterator.hasNext()) {
+            ICell c = (ICell) iterator.next();
+            ICellView view = (ICellView) mineField_TilePane.getChildren().get(mineField.indexOfCell(c));
             view.disableCell();
             if (c.isBomb())  {
                 if (c.getState() instanceof FlaggedState) {
-                    view.getStyleClass().add("correct-flag");
+                    view.addStyle("correct-flag");
                 } else if (c.getState() instanceof PossibleState) {
                     c.flag();
                     c.flag();
-                    view.getStyleClass().add("correct-flag");
+                    view.addStyle("correct-flag");
                 } else {
                     c.flag();
                 }
@@ -204,15 +206,17 @@ public class MineFinderController implements Observer {
     }
 
     private void revealBombs() {
-        for (Cell c : mineField) {
-            CellView view = (CellView) mineField_TilePane.getChildren().get(mineField.indexOf(c));
+        Iterator iterator = mineField.getIterator();
+        while (iterator.hasNext()) {
+            ICell c = (ICell) iterator.next();
+            ICellView view = (CellView) mineField_TilePane.getChildren().get(mineField.indexOfCell(c));
             view.disableCell();
 
             if (c.isBomb()) {
                 if (c.getState() instanceof MarkedState) {
-                    view.getStyleClass().add("correct-flag");
+                    view.addStyle("correct-flag");
                 } else {
-                    view.getStyleClass().add("unmarked-bomb");
+                    view.addStyle("unmarked-bomb");
                 }
             }
         }
@@ -227,7 +231,7 @@ public class MineFinderController implements Observer {
     private TimerFactory timerFactory;
 
     private void setTimer() {
-        timer = timerFactory.createTimer(modeText, this);
+        timer = timerFactory.createTimer(modeText, difficultyText, sizeText);
     }
 
     private DifficultyFactory difficultyFactory;
@@ -266,14 +270,6 @@ public class MineFinderController implements Observer {
     public void selectCell(CellView cellView) {
         int index = mineField_TilePane.getChildren().indexOf(cellView);
         mineField.select(index);
-    }
-
-    public String getDifficultyText() {
-        return difficultyText;
-    }
-
-    public String getSizeText() {
-        return sizeText;
     }
 
     private void showAlert(String content) {

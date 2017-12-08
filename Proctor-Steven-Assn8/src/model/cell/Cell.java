@@ -17,7 +17,7 @@ import java.util.Observable;
  * @author Steven Proctor
  * @version 1.0
  */
-public class Cell extends Observable {
+public class Cell extends Observable implements ICell {
 
 
     /**

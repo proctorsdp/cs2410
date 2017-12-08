@@ -1,17 +1,11 @@
 package tests.modelTests;
 
-import com.sun.prism.shader.Solid_TextureYV12_AlphaTest_Loader;
 import model.MineField;
 import model.cell.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import java.util.Collections;
-import java.util.Observable;
-import java.util.Observer;
 import java.util.Random;
 
-import static org.junit.jupiter.api.Assertions.*;
 
 class MineFieldTest {
 
