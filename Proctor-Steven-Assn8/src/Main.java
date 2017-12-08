@@ -5,7 +5,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 /**
- *
+ *  Sets up and displays the MineFinder Game.
  *
  * @author Steven Proctor
  * @version 1.0

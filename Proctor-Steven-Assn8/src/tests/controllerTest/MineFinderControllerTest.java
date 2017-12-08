@@ -1,22 +1,13 @@
 package tests.controllerTest;
 
-import controller.MineFinderController;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class MineFinderControllerTest {
-
-    private MineFinderController controller;
-
     @BeforeEach
-    void setUp() throws IOException {
-
+    void setUp() {
     }
 
     @Test
@@ -25,6 +16,18 @@ class MineFinderControllerTest {
 
     @Test
     void reset() {
+    }
+
+    @Test
+    void setDifficulty() {
+    }
+
+    @Test
+    void setSize() {
+    }
+
+    @Test
+    void setModeText() {
     }
 
     @Test

@@ -189,15 +189,15 @@ public class MineFinderMenu {
     }
 
     /**
-     * MineFinderController used to update information when the menu changes
+     * IMenuController used to update information when the menu changes
      */
     private IMenuController controller;
 
     /**
-     * Sets the MineFinderController used by the class
-     * @param controller MineFinderController
+     * Sets the IMenuController used by the class
+     * @param controller and object which implements the IMenuController interface
      */
-    public void initialize(IMenuController controller) {
+    public void setGameController(IMenuController controller) {
         this.controller = controller;
     }
 }

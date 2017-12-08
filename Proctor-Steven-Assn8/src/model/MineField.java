@@ -35,9 +35,9 @@ public class MineField extends ArrayList<ICell> implements IMineField {
     /**
      * Constructor accepts the number of rows, columns, and the percent of the cells which are to contain bombs. Creates
      * the minefield, shuffles the cells, and counts the number of of cells surrounding each cell.
-     * @param numRows number of rows that makes up the minefield (10 <= rows <= 25)
-     * @param numCols number of columns that makes up the minefield (10 <= columns <= 25)
-     * @param percentMines percentage of cell that contain a bomb in decimal form (0.1 <= percent <= 0.4)
+     * @param numRows number of rows that makes up the minefield (10 &le; rows &le; 25)
+     * @param numCols number of columns that makes up the minefield (10 &le; columns &le; 25)
+     * @param percentMines percentage of cell that contain a bomb in decimal form (0.1 &le; percent &le; 0.4)
      */
     public MineField(int numRows, int numCols, double percentMines) {
         if (percentMines > 0.4 || percentMines < 0.1) {
@@ -114,6 +114,11 @@ public class MineField extends ArrayList<ICell> implements IMineField {
         }
     }
 
+
+    /**
+     * Returns an iterator of the minefield
+     * @return a minefield iterator
+     */
     @Override
     public Iterator getIterator() {
         return this.iterator();
@@ -154,11 +159,14 @@ public class MineField extends ArrayList<ICell> implements IMineField {
         return numMines;
     }
 
-
+    /**
+     * Returns the index of a given ICell in the minefield
+     * @param cell The ICell in question
+     * @return the index of ICell in the minefield
+     */
     public int indexOfCell(ICell cell) {
         return this.indexOf(cell);
     }
-
 
     /**
      * Returns a string of the minefield, formatted to its appropriate dimensions.

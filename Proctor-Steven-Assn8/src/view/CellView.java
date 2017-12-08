@@ -13,10 +13,16 @@ import javafx.scene.input.MouseEvent;
 public class CellView extends Button implements ICellView {
 
 
+    /**
+     * An CellViewController which is updated when the user interacts with the cell view
+     */
     private ICellViewController controller;
 
 
-
+    /**
+     * Default Constructor. Initializes the style and event handlers of the cellView.
+     * @param controller an Objects which implements the ICellViewController interface
+     */
     public CellView(ICellViewController controller) {
         this.controller = controller;
         this.setOnMousePressed(this::mouseClicked);
@@ -107,6 +113,10 @@ public class CellView extends Button implements ICellView {
         this.setMouseTransparent(true);
     }
 
+    /**
+     * Changes the style of the cell using the cellStyles.css file, and a string describing the style desired
+     * @param style the name of a style in cellStyles.css
+     */
     public void addStyle(String style) {
         this.getStyleClass().add(style);
     }

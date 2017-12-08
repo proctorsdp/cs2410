@@ -48,7 +48,6 @@ public class MineFinderHeader {
     @FXML
     private Text timerText;
 
-
     /**
      * Calls the reset method of the controller when the button is pressed
      * @param event not used
@@ -56,11 +55,16 @@ public class MineFinderHeader {
     @FXML
     void onResetButtonAction(ActionEvent event) { controller.reset(); }
 
-
+    /**
+     * IHeaderController that can reset the game when the resetButton is pressed
+     */
     private IHeaderController controller;
 
-
-    public void initialize(IHeaderController controller) {
+    /**
+     * Sets the IHeaderController
+     * @param controller an Object which implements the IHeaderController interface
+     */
+    public void setGameController(IHeaderController controller) {
         this.controller = controller;
     }
 

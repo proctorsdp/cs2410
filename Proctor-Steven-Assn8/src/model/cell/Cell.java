@@ -143,7 +143,7 @@ public class Cell extends Observable implements ICell {
 
 
     /**
-     * Select the cell and attempts to reveal its contents. Flagged & Possible cells cannot be revealed. Will notify any
+     * Select the cell and attempts to reveal its contents. Flagged and Possible cells cannot be revealed. Will notify any
      * observers if a state change occurs.
      */
     public void select() {

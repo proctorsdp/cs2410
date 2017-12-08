@@ -16,9 +16,9 @@ public interface ICellState {
 
     /**
      * Toggles the flag on a cell.
-     *      Hidden -> Flag
-     *      Flag -> Possible
-     *      Possible -> Hidden
+     *      Hidden to Flag
+     *      Flag to Possible
+     *      Possible to Hidden
      * @return true if a change occurs and the observers need to be notified.
      */
     boolean flag();
