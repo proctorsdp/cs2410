@@ -8,12 +8,12 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
+import javafx.scene.control.Alert;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import model.MineField;
 import model.cell.*;
 import view.CellView;
-import view.GradingInfo;
 import view.MineFinderHeader;
 import view.MineFinderMenu;
 import java.util.Observable;
@@ -66,9 +66,6 @@ public class MineFinderController implements Observer {
         mineField_TilePane.setAlignment(Pos.CENTER);
 
         initializeView();
-
-        GradingInfo gradingInfo = new GradingInfo();
-        gradingInfo.showAndWait();
     }
 
     private void initializeView() {
@@ -177,6 +174,7 @@ public class MineFinderController implements Observer {
         timer.stop();
         headerController.setResetButtonStyle("victory-face");
         flagRemainingBombs();
+        showAlert("YOU WIN!!!");
     }
 
     private void flagRemainingBombs() {
@@ -202,6 +200,7 @@ public class MineFinderController implements Observer {
         timer.stop();
         headerController.setResetButtonStyle("defeat-face");
         revealBombs();
+        showAlert("YOU LOSE!!!");
     }
 
     private void revealBombs() {
@@ -275,5 +274,14 @@ public class MineFinderController implements Observer {
 
     public String getSizeText() {
         return sizeText;
+    }
+
+    private void showAlert(String content) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Game Over");
+        alert.setHeaderText(null);
+        alert.setGraphic(null);
+        alert.setContentText(content + "\nTime: " + timer.getMasterTime() + " seconds");
+        alert.showAndWait();
     }
 }

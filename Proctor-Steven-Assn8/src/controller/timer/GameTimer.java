@@ -10,13 +10,15 @@ public abstract class GameTimer extends Observable {
 
     protected MineFinderController controller;
 
+    int masterTime;
+
     int time;
 
     boolean reset;
 
     int timeDelay;
 
-    int period;
+    private int period;
 
     private Timer timer;
 
@@ -27,6 +29,7 @@ public abstract class GameTimer extends Observable {
     GameTimer(MineFinderController controller) {
         this.controller = controller;
         this.timer = new Timer("GameTimer", true);
+        this.masterTime = 0;
         this.timeDelay = 1000;
         this.period = 1000;
         this.isRunning = false;
@@ -44,6 +47,7 @@ public abstract class GameTimer extends Observable {
                 } else {
                     incrementTime();
                 }
+                masterTime++;
                 setChanged();
                 notifyObservers();
                 clearChanged();
@@ -51,6 +55,7 @@ public abstract class GameTimer extends Observable {
         };
         timer.scheduleAtFixedRate(timerTask, timeDelay, period);
     }
+
 
     abstract void incrementTime();
 
@@ -77,4 +82,6 @@ public abstract class GameTimer extends Observable {
     public boolean isRunning() {
         return isRunning;
     }
+
+    public int getMasterTime() { return masterTime; }
 }

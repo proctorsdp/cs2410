@@ -1,7 +1,17 @@
 package model.cell;
 
+/**
+ * A cell in a possible state cannot be selected. Flagging a possible state will change the cell's state to hidden.
+ *
+ * @author Steven Proctor
+ * @version 1.0
+ */
 public class PossibleState extends MarkedState {
 
+    /**
+     * Default constructor
+     * @param cell the cell whose state has become possible
+     */
     PossibleState(Cell cell) {
         super(cell);
     }
@@ -16,6 +26,10 @@ public class PossibleState extends MarkedState {
         return true;
     }
 
+    /**
+     * Returns the contents of the cell in String form
+     * @return "P"
+     */
     @Override
     public String toString() {
         return "P";

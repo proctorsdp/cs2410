@@ -2,6 +2,9 @@ package model.cell;
 
 /**
  * Interface for a class describing the state of a cell. A valid state must be able to support select and flag methods.
+ *
+ * @author Steven Proctor
+ * @version 1.0
  */
 public interface ICellState {
 

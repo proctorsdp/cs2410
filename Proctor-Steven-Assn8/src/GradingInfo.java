@@ -1,10 +1,14 @@
-package view;
-
 import javafx.scene.control.Alert;
 
-public class GradingInfo extends Alert {
+/**
+ * Alert Window describing the completion of various homework requirements
+ *
+ * @author Steven Proctor
+ * @version 1.0
+ */
+class GradingInfo extends Alert {
 
-    public GradingInfo() {
+    GradingInfo() {
         super(AlertType.INFORMATION);
         this.setGraphic(null);
         this.setTitle("Grading Information");

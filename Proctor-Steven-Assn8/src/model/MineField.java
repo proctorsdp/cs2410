@@ -5,12 +5,38 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Observer;
 
+/**
+ * Minefield contains a list of cells which makes up the field. Minefield accepts size and difficulty parameters, creates
+ * the list, and shuffles the contents. Updates the bombCount for each cell in the field allows access to a cells select
+ * and flag methods. Allows includes an option to select all the cells surrounding a given cell.
+ *
+ * @author Steven Proctor
+ * @version 1.0
+ */
 public class MineField extends ArrayList<Cell> {
 
+    /**
+     * Contains the number of cells in the mineField
+     */
     private int size;
+
+    /**
+     * Stores the number of rows the minefield is made up of
+     */
     private int numRows;
+
+    /**
+     * Stores the number of columns the minefield in made up of.
+     */
     private int numCols;
 
+    /**
+     * Constructor accepts the number of rows, columns, and the percent of the cells which are to contain bombs. Creates
+     * the minefield, shuffles the cells, and counts the number of of cells surrounding each cell.
+     * @param numRows number of rows that makes up the minefield (10 <= rows <= 25)
+     * @param numCols number of columns that makes up the minefield (10 <= columns <= 25)
+     * @param percentMines percentage of cell that contain a bomb in decimal form (0.1 <= percent <= 0.4)
+     */
     public MineField(int numRows, int numCols, double percentMines) {
         if (percentMines > 0.4 || percentMines < 0.1) {
             throw new IllegalArgumentException(
@@ -44,6 +70,10 @@ public class MineField extends ArrayList<Cell> {
         updateBombCount();
     }
 
+    /**
+     * Calls the select function for all eight cells surrounding the given cell.
+     * @param c a cell whose neighbors need to be selected
+     */
     public void selectNearbyCells(Cell c) {
         int index = this.indexOf(c);
         int row = index / numCols;
@@ -60,6 +90,11 @@ public class MineField extends ArrayList<Cell> {
         }
     }
 
+    /**
+     * Calls the select method of a cell, given its location in the minefield.
+     * @param row the row in the minefield where the cell is located
+     * @param col the column in the minefield where the cell is located
+     */
     public void select(int row, int col) {
         int index = indexAt(row, col);
         if (index >= 0 && index < size) {
@@ -67,12 +102,21 @@ public class MineField extends ArrayList<Cell> {
         }
     }
 
+    /**
+     * Calls the select method of a cell, given its location in the minefield.
+     * @param index the location of the cell in the arraylist
+     */
     public void select(int index) {
         if (index >= 0 && index < size) {
             this.get(index).select();
         }
     }
 
+    /**
+     * Calls teh flag method of a cell, given its location in the minefield.
+     * @param row the row in which the cell is located in the minefield
+     * @param col the column in which the cell is located in the minefield
+     */
     public void flag(int row, int col) {
         int index = indexAt(row, col);
         if (index >= 0 && index < size) {
@@ -80,18 +124,35 @@ public class MineField extends ArrayList<Cell> {
         }
     }
 
+    /**
+     * Calls teh flag method of a cell, given its location in the minefield.
+     * @param index the location of the cell in the arraylist
+     */
     public void flag(int index) {
         if (index >= 0 && index < size) {
             this.get(index).flag();
         }
     }
 
+
+    /**
+     * Contains the number of mines in the minefield
+     */
     private int numMines;
 
+    /**
+     * Return the number of mines in the minefield.
+     * @return the number of mines in the minefield
+     */
     public int getNumMines() {
         return numMines;
     }
 
+
+    /**
+     * Returns a string of the minefield, formatted to its appropriate dimensions.
+     * @return a string containing the minefield
+     */
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
@@ -109,28 +170,55 @@ public class MineField extends ArrayList<Cell> {
         return stringBuilder.toString();
     }
 
+
+    /**
+     * Add an minefield observer
+     * @param observer an object which extends Observer
+     */
     public void addObserver(Observer observer) {
         for (Cell c : this) {
             c.addObserver(observer);
         }
     }
 
+
+    /**
+     * Remove a minefield observer
+     * @param observer and object which extends Observer
+     */
     public void removeObserver(Observer observer) {
         for (Cell c : this) {
             c.deleteObserver(observer);
         }
     }
 
+
+    /**
+     * Returns the index of a cell in the arraylist, given its row and column in the grid
+     * @param row the row which the cell is located in the minefield
+     * @param col the column which the cell is located in the minefield
+     * @return the index of the cell in the arraylist
+     */
     private int indexAt(int row, int col) {
         return (row * numCols) + col;
     }
 
+
+    /**
+     * Calls countNearbyBombs for each cell in the minefield and sets that value
+     */
     private void updateBombCount() {
         for (Cell c : this) {
             c.setBombsNearby(countNearbyBombs(indexOf(c)));
         }
     }
 
+
+    /**
+     * Counts the number of bombs surrounding a cell, given its index
+     * @param index the index of the cell in the arraylist
+     * @return the number of bombs surrounding the cell
+     */
     private int countNearbyBombs(int index) {
         int row = index / numCols;
         int col = index % numCols;

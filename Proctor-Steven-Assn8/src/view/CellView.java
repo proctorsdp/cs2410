@@ -6,6 +6,12 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Font;
 
+/**
+ *
+ *
+ * @author Steven Proctor
+ * @version 1.0
+ */
 public class CellView extends Button {
 
     private MineFinderController controller;

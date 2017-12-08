@@ -2,34 +2,76 @@ package model.cell;
 
 import java.util.Observable;
 
+/**
+ *  Cell class is for a minesweeper like game. The cell can either contain a bomb or the number of bombs surrounding the
+ *  cell.
+ *
+ *  The cell can be in four different states:
+ *      Hidden
+ *      Flagged
+ *      Possible
+ *      Revealed
+ *
+ *  The select and flag methods vary depending on the state of the cell.
+ *
+ * @author Steven Proctor
+ * @version 1.0
+ */
 public class Cell extends Observable {
 
+
+    /**
+     * Stores the revealedState ICellState
+     */
     private ICellState revealedState;
 
+    /**
+     * Returns the revealedState
+     * @return revealedState
+     */
     ICellState getRevealedState() {
         return revealedState;
     }
 
-
+    /**
+     * Stores the flaggedState ICellState
+     */
     private ICellState flaggedState;
 
+    /**
+     * Returns the flaggedState
+     * @return flaggeState
+     */
     ICellState getFlaggedState() {
         return flaggedState;
     }
 
-
+    /**
+     * Stores the possibleState ICellState
+     */
     private ICellState possibleState;
 
+    /**
+     * Returns the possibleState
+     * @return possibleState
+     */
     ICellState getPossibleState() {
         return possibleState;
     }
 
-
+    /**
+     * Stores the hiddenState ICellState
+     */
     private ICellState hiddenState;
 
+    /**
+     * Returns the revealedState
+     * @return revealedState
+     */
     ICellState getHiddenState() {
         return hiddenState;
     }
+
 
     /**
      * Cell Constructor. Accepts a boolean as a parameter indicating whether or not the cell contains a bomb. Sets the
@@ -48,8 +90,16 @@ public class Cell extends Observable {
         this.bombsNearby = 0;
     }
 
+
+    /**
+     * Stores the current state of the cell
+     */
     private ICellState state;
 
+    /**
+     * Sets the current state of the cell
+     * @param state the new state the cell has entered
+     */
     void setState(ICellState state) {
         this.state = state;
     }
@@ -67,6 +117,9 @@ public class Cell extends Observable {
     }
 
 
+    /**
+     * Contains the number of bombs surrounding the cell
+     */
     private int bombsNearby;
 
     /**
@@ -78,6 +131,7 @@ public class Cell extends Observable {
         if (isBomb) { return; }
         this.bombsNearby = bombsNearby;
     }
+
 
     /**
      * Return the number of bombs surrounding the cell. Bombs may be directly adjacent or diagonal to the cell.
@@ -115,6 +169,9 @@ public class Cell extends Observable {
         }
     }
 
+    /**
+     * Stores whether or not the cell contains a bomb
+     */
     private boolean isBomb;
 
     /**
