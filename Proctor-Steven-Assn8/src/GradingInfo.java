@@ -41,7 +41,7 @@ class GradingInfo extends Alert {
                 "===================================\n" +
                 "The following features were added for CS 5700:\n" +
                 "===================================\n" +
-                "   UML Diagram:\n" +
+                "   UML & Sequence Diagrams:\n" +
                 "       - Located under \"readme/\" in the project directory\n" +
                 "\n" +
                 "   Test Cases:\n" +
@@ -53,6 +53,7 @@ class GradingInfo extends Alert {
                 "       - Observer Pattern: Notifies the Controller of a changes in the timers and model\n" +
                 "       - Simple Factory: Handles the creation of the timer, size, and difficulty\n" +
                 "       - Template Pattern: Handles the functionality of the three timers\n" +
+                "       - Iterator Pattern: Allows the controller to iterate through the minefield\n" +
                 "       - MVC Pattern: Handles the structure of the model, view, and controller\n"
         );
     }
