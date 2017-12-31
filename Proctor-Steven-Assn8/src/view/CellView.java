@@ -29,8 +29,10 @@ public class CellView extends Button implements ICellView {
         this.setOnMouseEntered(this::highlightCell);
         this.setOnMouseExited(this::deHighlightCell);
         this.getStylesheets().add("view/styleSheets/cellStyles.css");
-        this.setMaxSize(30, 30);
-        this.setMinSize(30, 30);
+
+        int CELL_SIZE = 25;
+        this.setMaxSize(CELL_SIZE, CELL_SIZE);
+        this.setMinSize(CELL_SIZE, CELL_SIZE);
     }
 
     /**

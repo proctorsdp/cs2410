@@ -22,7 +22,6 @@ public class Main extends Application {
         primaryStage.setX(50);
         primaryStage.setY(20);
         primaryStage.show();
-        new GradingInfo().showAndWait();
     }
 
 
